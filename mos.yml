@@ -1,0 +1,50 @@
+author: Cesanta
+description: BT sensor fw
+version: 0.1
+
+libs_version: ${mos.version}
+modules_version: ${mos.version}
+mongoose_os_version: ${mos.version}
+
+tags:
+  - docs:misc:BLE sensor
+
+sources:
+  - src
+
+includes:
+  - include
+
+config_schema:
+  - ["bts.data", "o", {title: "Data storage settings"}]
+  - ["bts.data.ram", "o", {title: "Data RAM buffer settings"}]
+  - ["bts.data.ram.size", "i", -49152, {title: "RAM buffer size; negative N means (free - N)"}]
+  - ["bts.data.ram_flush_interval_ms", "i", 60000, {title: "Flush RAM data to secondary storage (device, file) this often, ms"}]
+  - ["bts.data.dev", "o", {title: "Data raw device storage settings"}]
+  - ["bts.data.dev.type", "s", "esp32part", {title: "Device type"}]
+  - ["bts.data.dev.opts", "s", "{\"label\": \"data\", \"subtype\": 130}", {title: "Device options"}]
+  - ["bts.data.dev.size", "i", 0, {title: "Size; 0 means entire device"}]
+  - ["bts.data.dev.block_size", "i", 4096, {title: "Block size; must be a multiple of device erase size"}]
+  - ["bts.data.dev.meta_blocks", "i", 3, {title: "How many blocks to use for metadata writes"}]
+  - ["bts.data.file", "o", {title: "Data file storage settings"}]
+  - ["bts.data.file.enable", "b", false, {title: "Enable file storage"}]
+  - ["bts.data.file.mount", "o", {title: "Data filesystem mount settings"}]
+  - ["bts.data.file.mount.enable", "b", true, {title: "Mount an external FS for data"}]
+  - ["bts.data.file.mount.dev_type", "s", "esp32part", {title: "Device type"}]
+  - ["bts.data.file.mount.dev_opts", "s", "{\"label\": \"fs_data\", \"subtype\": 130}", {title: "Device options"}]
+  - ["bts.data.file.mount.fs_type", "s", "SPIFFS", {title: "FS type"}]
+  - ["bts.data.file.mount.fs_opts", "s", "", {title: "FS options"}]
+  - ["bts.data.file.state_file", "s", "bts_data_file_state.json", {title: "Name of the state file"}]
+  - ["bts.data.file.data_prefix", "s", "/data/bts_data", {title: "Name of the data file"}]
+  - ["bts.data.file.max_size", "i", 16384, {title: "Max size of each file"}]
+  - ["bts.data.file.max_num", "i", 57, {title: "Max size of each file"}]
+  - ["bts.data.file.buf_size", "i", 450, {title: "Size of read and write buffers, to reduce flash I/O"}]
+  - ["bts.data.stats_interval_ms", "i", 1000, {title: "Stats printing interval"}]
+  - ["bts.data.gatts", "o", {title: "GATTS service options"}]
+  - ["bts.data.gatts.enable", "b", false, {title: "Enable the GATTS service"}]
+
+manifest_version: 2017-06-29
+
+# Temporary, while root manifest change propagates (2018/03/29).
+libs:
+  - origin: https://github.com/mongoose-os-libs/core
